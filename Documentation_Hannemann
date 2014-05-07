@@ -1,0 +1,69 @@
+Uli Hannemanns Blog
+
+Bereiche: {{{1
+  Blog {{{2
+    Resource Blogposts
+      Felder:
+        Titel           string
+        Beschreibung    text
+        Text            text
+        Autor           foreign Key Author_ID
+        Veröffentlicht  bool
+  Bücher {{{2
+    Resource Bücher
+      Felder:
+        Titel           string
+        Beschreibung    text
+        Text            text
+        Autor           foreign Key Author_ID
+        ISBN            integer
+  Texte {{{2
+    Resource Texte
+      Felder:
+        Titel           string
+        Beschreibung    text
+        Text            text
+        Autor           foreign Key Author_ID
+  Bilder {{{2
+    Resource Bilder
+      Felder:
+        Titel           string
+        Beschreibung    text
+        URL             string
+  Audio {{{2
+    Resource Audio
+      Felder:
+        Titel           string
+        Beschreibung    text
+        URL             string
+  Presse {{{2
+    Resource Presse
+      Felder:
+        Titel           string
+        Beschreibung    text
+        Text            text
+  Termine {{{2
+    Resource Termine
+      Felder:
+        Titel           string
+        Beschreibung    text
+        DatumStart      datetime
+        DatumEnd        datetime
+        Autor           foreign Key Author_ID
+  Kontakt {{{2
+    Formular Kontakt (mailer)
+      Felder:
+        Name            string
+        email           string
+        subject         string
+        text            text
+  statische Seiten {{{2
+    Controller Actions:
+      Impressum {{{3
+        Felder:
+          Titel   string
+          HTML    text
+      Über mich {{{3
+        Felder:
+          Titel   string
+          HTML    text

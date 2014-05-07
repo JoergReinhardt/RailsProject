@@ -1,0 +1,42 @@
+# erst mal das System angelegte gem & rvm Verzeichniss ersetzen
+sudo rm /etc/rvmrc
+rm -rf ~/.gem
+rm -rf ~/.rvm
+# neues rvm im home Verzeichniss installieren
+curl -L get.rvm.io | bash -s stable
+# Umgebungsvariablen sourcen und in das zsh Profil eintragen
+source ~/.rvm/scripts/rvm
+echo "source ~/.rvm/scripts/rvm" >> ~/.zshrc.local
+# rvm updaten
+rvm get head && rvm reload
+# Abhängigkeiten mit dem Packetmanager nachinstallieren
+sudo /usr/bin/apt-get install build-essential openssl libreadline6 libreadline6-dev curl git-core zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev automake libtool bison subversion
+# ruby lokal in home installieren
+rvm install 1.9.3
+# neuestes gem Packet holen entpacken und installieren
+wget http://rubyforge.org/frs/download.php/76073/rubygems-1.8.24.tgz
+tar xzf rubygems-1.8.24.tgz
+cd rubygems*
+chmod 700 setup.rb
+ruby setup.rb
+# gemset für das neuen Projekt anlegen und benutzen
+rvm use 1.9.3@<PROJRCTNAME> --create --default
+# passende rails version im neuen gemset installieren
+gem install rails -v 3.2.3
+# noch ein paar Abhängigkeiten
+sudo apt-get install libxslt-dev libxml2-dev libsqlite3-dev
+
+# source Code Browsing zum Laufen bringen:
+wget http://rubyforge.org/frs/download.php/70625/rtags-0.98.gem
+gem install rtags-0.98.gem
+apt-get install global
+cp /usr/share/doc/global/examples/gtags.conf /home/j/.globalrc
+echo "rtags:
+	:tc=common:
+	:suffixes=s,a,sa,asm,C,H,cpp,cxx,homexx,hpp,cc,c,h,y,rb:
+	:extractmethod:
+	:GTAGS=rtags -x %s | awesomek '{ sub(/^\:\:/, "") ; sub(/\:\:/, "\:"); sub(/\\./, "#", $1); print}':
+	:GRTAGS=gtags-parser --langmap=java\:.rb -dtr  %s:
+	:GSYMS=gtags-parser --langmap=java\:.rb -dts  %s:" >> ~/.globalrc
+# gtags dazu bringen rtags zu benutzen
+export GTAGSLABEL=rtags
